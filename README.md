@@ -12,10 +12,17 @@ The scripts in this repository:
 ## Prerequisites
 
 Please install Docker by following the instructions [here](https://docs.docker.com/engine/install/)
-Note if this your first time using Docker, you may need to follow the [post-install instructions](https://docs.docker.com/engine/install/linux-postinstall/) to run Docker as a non-root user.
+
+Note: if this your first time using Docker, you may need to follow the [post-install instructions](https://docs.docker.com/engine/install/linux-postinstall/) to run Docker as a non-root user.
 
 
 ## Installation Instructions
+
+We provide two ways to build the Docker images/containers. 
+
+We provide a series of bash scripts that simplify some of the interface with Docker. These scripts are mostly for convenience, but can also be used by those unfamiliar with Docker.
+
+The Dockerfile can also be used to create images and containers with standard Docker build commands.
 
 ### Bash Scripts
 We have provided a series of bash scripts that can build the image, create a container, and run/attach to containers to simplify operations. They work as follows:
