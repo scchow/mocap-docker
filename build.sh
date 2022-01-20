@@ -4,5 +4,4 @@
 # ./create_image.sh <image_name:tag>
 # e.g., ./create_image.sh mocap:base
 
-export DOCKER_BUILDKIT=1
-docker build --ssh default -t $1 .
+docker build -t $1 .
