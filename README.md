@@ -20,7 +20,7 @@ Note if this your first time using Docker, you may need to follow the [post-inst
 ### Bash Scripts
 We have provided a series of bash scripts that can build the image, create a container, and run/attach to containers to simplify operations. They work as follows:
 
-```
+```bash
 bash clone_dependencies.sh # clones the repositories for mocap
 bash build.sh <image_name>:<image_tag> # invokes Docker to build the image according to the DockerFile
 bash run.sh <image_name>:<image_tag> <container_name> # Uses the image to build a container and starts it
@@ -77,15 +77,16 @@ I have not yet run this container on the actual mocap system, so some of the opt
 Once you have gotten the Docker container up and running, you can now start building and installing packages.
 
 ### ROS Motion Capture Package
-You can build the ROS packages by running:
+The ROS packages can be built and run by:
 ``` bash
 cd /home/catkin_ws # If you aren't there already
 catkin build
 source devel/setup.bash # Remember to source devel/setup.bash every time you restart the container
+roslaunch mocap_qualisys qualisys.launch
 ```
 
 ### C++ Motion Capture Package
-You can build the C++ SDK packages by running:
+The C++ SDK packages can be built and run by running:
 
 ``` bash
 cd /home/catkin_ws/src/qualisys_cpp_sdk
@@ -97,6 +98,8 @@ cmake --build .
 ```
 
 ### Python Motion Capture Package
+
+The Python SDK packages are installed and ran by:
 
 ```bash
 cd /home/catkin_ws/src/qualisys_python_sdk
