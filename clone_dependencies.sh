@@ -1,5 +1,5 @@
-mkdir -p catkin_ws/src
-cd catkin_ws/src
+mkdir -p deps
+cd deps
 
 git clone git@github.com:scchow/motion_capture_system.git
 git clone git@github.com:scchow/qualisys_python_sdk.git

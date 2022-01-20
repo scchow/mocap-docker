@@ -6,7 +6,7 @@
 
 docker container run -it \
 -v ~/.ssh:/root/.ssh:ro \
--v $(pwd)/catkin_ws/src:/home/catkin_ws/src \
+-v $(pwd)/deps:/home/catkin_ws/src \
 --name $2 \
 --network="host" \
 $1 
