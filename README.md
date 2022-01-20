@@ -1,20 +1,23 @@
 # Using Docker for Mocap
 
-Here is a DockerFile for setting up the ROS Driver on a machine that using a Docker container.
+Here is a DockerFile for setting up Real Time motion capture for Qualisys on a machine that using a Docker container.
 This will ideally allow for greater flexibility and portability.
 
-At a high level, the scripts in this repository is meant to 
+The scripts in this repository:
+- Clone the relevant repositories into a folder
+- Create a Docker image with ROS Noetic and dependencies installed
+- Create a Docker container that mounts the folder with relevant repositories for easy building and development
 
 
-# Prerequisites
+## Prerequisites
 
 Please install Docker by following the instructions [here](https://docs.docker.com/engine/install/)
 Note if this your first time using Docker, you may need to follow the [post-install instructions](https://docs.docker.com/engine/install/linux-postinstall/) to run Docker as a non-root user.
 
 
-# Installation Instructions
+## Installation Instructions
 
-## Bash Scripts
+### Bash Scripts
 We have provided a series of bash scripts that can build the image, create a container, and run/attach to containers to simplify operations. They work as follows:
 
 ```
@@ -25,7 +28,7 @@ bash start.sh <container_name> # starts the given Docker container
 bash attach.sh <container_name> # attach to a running Docker container
 ```
 
-### Bash Quickstart
+#### Bash Quickstart
 
 Run the following commands to construct an image, create a container, and run the container, dropping into a terminal.
 
@@ -41,7 +44,7 @@ bash start.sh mocap-dev
 bash attach.sh mocap-dev # run this in as many terminals as you want for multiple views into a container
 ```
 
-## Manual: Creating an Image and Container
+### Manual: Creating an Image and Container
 
 To create a Docker Image from the Dockerfile:
 
@@ -69,11 +72,11 @@ Notes:
 I have not yet run this container on the actual mocap system, so some of the options: `--network="host"` may not be necessary. I will do more testing and update these instructions.
 
 
-# Things to do inside the Docker container
+## Things to do inside the Docker container
 
 Once you have gotten the Docker container up and running, you can now start building and installing packages.
 
-## ROS Motion Capture Package
+### ROS Motion Capture Package
 You can build the ROS packages by running:
 ``` bash
 cd /home/catkin_ws # If you aren't there already
@@ -81,7 +84,7 @@ catkin build
 source devel/setup.bash # Remember to source devel/setup.bash every time you restart the container
 ```
 
-## C++ Motion Capture Package
+### C++ Motion Capture Package
 You can build the C++ SDK packages by running:
 
 ``` bash
@@ -93,7 +96,7 @@ cmake --build .
 ./RigidBodyStreaming
 ```
 
-## Python Motion Capture Package
+### Python Motion Capture Package
 
 ```bash
 cd /home/catkin_ws/src/qualisys_python_sdk
