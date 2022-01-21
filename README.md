@@ -1,13 +1,29 @@
+> **_NOTE:_**
+>
+>   In this `deploy` branch, I've modified the code to follow different Docker conventions. The `master` branch is probably a better development environment because it bind-mounts the important code for easy edits. These are the changes I've made in this branch.
+>
+>   * I removed the `apt/lists` files after each installation command, to minimize layer size.
+>   * I made `WORK_DIR` an environment variable.
+>   * I baked all of the installation steps into the Dockerfile, so the user does not have to do them. This is both more convenient and more immutable/reproducible. It's still possible to bind-mount local versions into the container for local development.
+>   * I removed the `ssh` key bind-mounts, since they are not strictly necessary.
+>   * I added `source devel/setup.bash` into a custom entrypoint.
+>   * I removed the helper bash scripts, preferring explicit Docker `build`/`pull`/`run` commands.
+>   * I pushed an image to Docker Hub for easy access.
+>   
+>   A couple more changes might make this Dockerfile more idiomatic:
+>   * use a multi-stage build to create a smaller image containing only the executables for deployment.
+>   * make shorter aliases for each command so the `docker run` command can be shorter and not rely on the installation location.
+>   * Bake separate Dockerfiles for each command, and organize them in a `docker_compose.yml` to form a true community of microservices.
+>   * Create a non-root user, as a best practice for security.
+
+
 # Using Docker for Mocap
 
 Here is a DockerFile for setting up Real Time motion capture for Qualisys on a machine that using a Docker container.
 This will ideally allow for greater flexibility and portability.
 
 The scripts in this repository:
-- Clone the relevant repositories into a folder
-- Create a Docker image with ROS Noetic and dependencies installed
-- Create a Docker container that mounts the folder with relevant repositories for easy building and development
-
+- Create a Docker image with ROS Noetic, dependencies, and relevant repositories installed
 
 ## Prerequisites
 
@@ -18,98 +34,30 @@ Note: if this your first time using Docker, you may need to follow the [post-ins
 
 ## Installation Instructions
 
-We provide two ways to build the Docker images/containers. 
+Build or pull the Docker image for MoCap:
 
-We provide a series of bash scripts that simplify some of the interface with Docker. These scripts are mostly for convenience, but can also be used by those unfamiliar with Docker.
-
-The Dockerfile can also be used to create images and containers with standard Docker build commands.
-
-### Bash Scripts
-We have provided a series of bash scripts that can build the image, create a container, and run/attach to containers to simplify operations. They work as follows:
-
-```bash
-bash clone_dependencies.sh # clones the repositories for mocap
-bash build.sh <image_name>:<image_tag> # invokes Docker to build the image according to the DockerFile
-bash run.sh <image_name>:<image_tag> <container_name> # Uses the image to build a container and starts it
-bash start.sh <container_name> # starts the given Docker container
-bash attach.sh <container_name> # attach to a running Docker container
+Pull (preferred):
+```
+docker pull playertr/mocap
 ```
 
-#### Bash Quickstart
-
-Run the following commands to construct an image, create a container, and run the container, dropping into a terminal.
-
-``` bash
-bash clone_dependencies.sh
-bash build.sh mocap:base
-bash run.sh mocap:base mocap-dev
+Build (alternative, use if you want to compile the dependencies locally):
+```
+docker build . -f Dockerfile
 ```
 
-Once you've closed the container and stopped it, you can start it by running
-``` bash
-bash start.sh mocap-dev
-bash attach.sh mocap-dev # run this in as many terminals as you want for multiple views into a container
+## Usage Instructions
+
+The MoCap ROS nodes, C++ SDK, and python SDK can be run with the following commands, respectively:
+
+```
+docker run -it --net host playertr/mocap roslaunch mocap_qualisys qualisys.launch
 ```
 
-### Manual: Creating an Image and Container
-
-To create a Docker Image from the Dockerfile:
-
-``` bash
-docker build -t mocap:base .
+```
+docker run -it --net host playertr/mocap ./src/qualisys_cpp_sdk/build/RigidBodyStreaming
 ```
 
-This will create a Docker Image and tag it `mocap:base`.
-
-
-Next to create a container from the image, run:
-``` bash
-docker container run -it --name mocap-dev --network="host" mocap:base 
 ```
-
-You can now restart/attach to that container using:
-
-``` bash
-docker container start mocap-dev
-docker container attach mocap-dev
-```
-
-Notes:
-
-I have not yet run this container on the actual mocap system, so some of the options: `--network="host"` may not be necessary. I will do more testing and update these instructions.
-
-
-## Things to do inside the Docker container
-
-Once you have gotten the Docker container up and running, you can now start building and installing packages.
-
-### ROS Motion Capture Package
-The ROS packages can be built and run by:
-``` bash
-cd /home/catkin_ws # If you aren't there already
-catkin build
-source devel/setup.bash # Remember to source devel/setup.bash every time you restart the container
-roslaunch mocap_qualisys qualisys.launch
-```
-
-### C++ Motion Capture Package
-The C++ SDK packages can be built and run by running:
-
-``` bash
-cd /home/catkin_ws/src/qualisys_cpp_sdk
-mkdir build
-cd build
-cmake .. -DBUILD_EXAMPLES=ON
-cmake --build .
-./RigidBodyStreaming
-```
-
-### Python Motion Capture Package
-
-The Python SDK packages are installed and ran by:
-
-```bash
-cd /home/catkin_ws/src/qualisys_python_sdk
-python3 -m pip install qtm
-python3 examples/basic_example.py
+docker run -it --net host playertr/mocap python3 src/qualisys_python_sdk/examples/basic_example.py
 ```
