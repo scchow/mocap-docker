@@ -61,3 +61,5 @@ docker run -it --net host playertr/mocap ./src/qualisys_cpp_sdk/build/RigidBodyS
 ```
 docker run -it --net host playertr/mocap python3 src/qualisys_python_sdk/examples/basic_example.py
 ```
+
+We have additionally added `make` targets for these commands, so you can run `make run-ros`, `make run-cpp-sdk`, or `make run-py-sdk` if you are lazy or efficient.
