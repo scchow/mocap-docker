@@ -28,7 +28,6 @@ The Dockerfile can also be used to create images and containers with standard Do
 We have provided a series of bash script and a Makefile that can build the image, create a container, and run/attach to containers to simplify operations. They work as follows:
 
 ```bash
-bash clone_dependencies.sh # clones the repositories for mocap
 make build <image_name>:<image_tag> # invokes Docker to build the image according to the DockerFile
 make run <image_name>:<image_tag> <container_name> # Uses the image to build a container and starts it
 make start <container_name> # starts the given Docker container
@@ -36,14 +35,14 @@ make attach <container_name> # attach to a running Docker container sharing tty 
 make ssh <container_name> # create new bash tty into running container
 ```
 
-#### Bash Quickstart
+### Bash Quickstart
 
 Run the following commands to construct an image, create a container, and run the container, dropping into a terminal.
 
-Note: you may omit the `mocap:base` `mocap-dev` from the following commands, since they are the default arguments for `image_name` and `container_name`. Alternatively, you may want to change the image and container names, in which case you would replace `mocap-base` and `mocap-dev1 respectively.
+Note: you may omit the `mocap:base` `mocap-dev` from the following commands, since they are the default arguments for `image_name` and `container_name`. Alternatively, you may want to change the image and container names, in which case you would replace `mocap-base` and `mocap-dev` respectively.
+
 
 ``` bash
-bash clone_dependencies.sh
 make build mocap:base
 make run mocap:base mocap-dev
 ```
