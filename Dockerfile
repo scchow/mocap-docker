@@ -12,8 +12,10 @@ RUN apt-get install -y openssh-client wget vim iputils-ping python3-pip
 # RUN mkdir -p /home/.ssh
 # RUN echo "Host *.trabe.io\n\tStrictHostKeyChecking no\n" >> /root/.ssh/config
 
+WORKDIR /home
+
 WORKDIR /home/catkin_ws
-RUN mkdir src
+RUN mkdir src && mkdir -p ../data
 
 ENTRYPOINT ["/ros_entrypoint.sh"]
 CMD ["bash"]

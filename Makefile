@@ -7,6 +7,7 @@ start:
 run:
 	docker container run -it \
 		-v $(pwd)/deps:/home/catkin_ws/src \
+		-v $(pwd)/data:/home/data \
 		--name $(container_name) \
 		--network="host" \
 		$(image_name)

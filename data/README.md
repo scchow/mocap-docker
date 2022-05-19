@@ -1,0 +1,1 @@
+This data file is mounted by the Docker container and provides an easy way to export data out of the Docker container and into the parent system.
