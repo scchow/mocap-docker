@@ -95,7 +95,7 @@ You must manually configure the network by doing the following:
 
   1. Go to network settings
   2. Change IPv4 to Manual
-  3. Set address to 192.168.XXX.ZZ - Notice the XXX must match the IP of the main computer, ZZZ can be any unused address between (01-255)
+  3. Set address to 192.168.XXX.ZZ - Notice the XXX must match the IP of the main computer, ZZZ can be any unused address. 
   4. Set Netmask: 255.255.255.128
   5. Leave Gateway Blank
   6. Perform the edits to each of the SDK to ensure they can connect to the correct IP Address.
