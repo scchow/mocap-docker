@@ -15,6 +15,12 @@ Please install Docker by following the instructions [here](https://docs.docker.c
 
 Note: if this your first time using Docker, you may need to follow the [post-install instructions](https://docs.docker.com/engine/install/linux-postinstall/) to run Docker as a non-root user.
 
+When cloning this repository, please use 
+```
+git clone --recurse-submodules git@github.com:scchow/mocap-docker.git
+```
+to also clone dependencies as submodules.
+
 
 ## Installation Instructions
 
